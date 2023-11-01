@@ -4,39 +4,34 @@
 
 class ResourceManager
 {
-private: 
-    Resource *resource;
+private:
+    Resource* resource = new Resource();
 
 public:
-    ResourceManager(){} // Konstruktor domyślny klasy ResourceManager
+    ResourceManager() {} // Konstruktor domyślny klasy ResourceManager
 
-    ~ResourceManager(){} // Destruktor klasy ResourceManager
+    ~ResourceManager() {} // Destruktor klasy ResourceManager
 
     double get() { return resource->get(); }
 
+    ResourceManager(const ResourceManager& other)
+        : resource(other.resource) {} // Konstruktor kopiujący
 
-
-    ResourceManager(const ResourceManager& other) : resource(other.resource){} // Konstruktor kopiujący
-
-    
-    ResourceManager& operator=(const ResourceManager& other) //Kopiujący Operator przypisania
+    ResourceManager& operator=(const ResourceManager& other) // Kopiujący Operator przypisania
     {
         if (this != &other) {
             resource = other.resource;
         }
         return *this;
-
     }
 
-    
-    ResourceManager(ResourceManager&& other) : resource(nullptr) // Konstruktor przenoszący
-    { 
-        resource = other.resource;
+    ResourceManager(ResourceManager&& other) noexcept : resource(nullptr) // Konstruktor przenoszący
+    {
+        resource       = other.resource;
         other.resource = nullptr;
-    }     
+    }
 
-    
-    ResourceManager& operator=(ResourceManager&& other)  // Operator przypisania przenoszącego
+    ResourceManager& operator=(ResourceManager&& other) // Operator przypisania przenoszącego
     {
         if (this != &other) {
             resource       = other.resource;
