@@ -4,54 +4,43 @@
 
 class ResourceManager
 {
-private:
-    Resource resource;
+private: 
+    Resource *resource;
 
 public:
-    ResourceManager() : resource()
-    {
-        // Konstruktor domyślny klasy ResourceManager, inicjalizuje obiekt typu Resource
-    }
+    ResourceManager(){} // Konstruktor domyślny klasy ResourceManager
 
-    double get() { return resource.get(); }
+    ~ResourceManager(){} // Destruktor klasy ResourceManager
 
-    // 5 dobrze zdefiniowanych metod specjalnych klasy ResourceManager
-    // Możesz dodać odpowiednie konstruktory kopiujące, przenoszące, destruktory, itp.
+    double get() { return resource->get(); }
 
-    // Destruktor
-    ~ResourceManager()
-    {
-        // Destruktor klasy ResourceManager
-    }
 
-    // Konstruktor kopiujący
-    ResourceManager(const ResourceManager& other) : resource(other.resource)
-    {
-        // Implementacja konstruktora kopiującego
-    }
 
-    // Operator przypisania
-    ResourceManager& operator=(const ResourceManager& other)
+    ResourceManager(const ResourceManager& other) : resource(other.resource){} // Konstruktor kopiujący
+
+    
+    ResourceManager& operator=(const ResourceManager& other) //Kopiujący Operator przypisania
     {
         if (this != &other) {
             resource = other.resource;
-            // Implementacja operatora przypisania
         }
         return *this;
+
     }
 
-    // Konstruktor przenoszący
-    ResourceManager(ResourceManager&& other) noexcept : resource(std::move(other.resource))
-    {
-        // Implementacja konstruktora przenoszącego
-    }
+    
+    ResourceManager(ResourceManager&& other) : resource(nullptr) // Konstruktor przenoszący
+    { 
+        resource = other.resource;
+        other.resource = nullptr;
+    }     
 
-    // Operator przypisania przenoszącego
-    ResourceManager& operator=(ResourceManager&& other) noexcept
+    
+    ResourceManager& operator=(ResourceManager&& other)  // Operator przypisania przenoszącego
     {
         if (this != &other) {
-            resource = std::move(other.resource);
-            // Implementacja operatora przypisania przenoszącego
+            resource       = other.resource;
+            other.resource = nullptr;
         }
         return *this;
     }
