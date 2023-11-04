@@ -13,7 +13,7 @@ public:
 
     double get() { return resource->get(); }
 
-    ResourceManager(const ResourceManager& other) : resource(new Resource(*other.resource) {} // Konstruktor kopiujący
+    ResourceManager(const ResourceManager& other) : resource(new Resource(*other.resource)) {} // Konstruktor kopiujący
 
     ResourceManager& operator=(const ResourceManager& other) // Kopiujący Operator przypisania
     {
@@ -26,4 +26,12 @@ public:
 
     ResourceManager(ResourceManager&& other) : resource(std::move(other.resource)) {} // Konstruktor przenoszący
     
+    ResourceManager& operator=(ResourceManager&& other)
+    {
+        if (this != &other) {
+            delete resource;
+            resource = std::move(other.resource);
+        }
+        return *this;
+    }
 };
