@@ -4,35 +4,26 @@
 
 class ResourceManager
 {
-private: 
-	Resource *resource;
+private:
+    Resource* resource;
 
 public:
-     ResourceManager() : resource(new Resource()) {}
+    ResourceManager() : resource(new Resource()) {} // Konstruktor klasy ResourceManager
+    ~ResourceManager() { delete resource;  }         // Destruktor klasy ResourceManager
 
-	 double get() { return resource->get(); }
+    double get() { return resource->get(); }
 
-	 ResourceManager(const ResourceManager &diff) : resource(new Resource(*diff.resource)) {}  // konstruktor kopiowania
+    ResourceManager(const ResourceManager& other) : resource(new Resource(*other.resource) {} // Konstruktor kopiujący
 
-	 ResourceManager& operator=(const ResourceManager& diff)  //zdefiniowanie przypisujacego operatora kopiowania
-         {
-             if (this != &diff) {
-                delete resource;
-                 resource = new Resource(*diff.resource);
-             }
-             return *this;
-         }
-     ResourceManager(ResourceManager&& diff) : resource(std::move(diff.resource)) {}  //kontruktor przenoszenia
+    ResourceManager& operator=(const ResourceManager& other) // Kopiujący Operator przypisania
+    {
+        if (this != &other) {
+            delete resource;
+            resource = new Resource(*other.resource);
+        }
+        return *this;
+    }
 
-     ResourceManager& operator=(ResourceManager&& diff)
-     {
-             if (this != &diff) {
-                 delete resource;
-                 resource = std::move(diff.resource);
-             }
-             return *this;
-     }
-
-      ~ResourceManager() { delete resource; } //destruktor
-
+    ResourceManager(ResourceManager&& other) : resource(std::move(other.resource)) {} // Konstruktor przenoszący
+    
 };
